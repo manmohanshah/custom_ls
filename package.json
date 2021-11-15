@@ -1,0 +1,8 @@
+{
+  "devDependencies": {
+    "@types/node": "^16.11.7"
+  },
+  "dependencies": {
+    "cli-table": "^0.3.6"
+  }
+}
