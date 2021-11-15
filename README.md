@@ -1,4 +1,5 @@
 Node version used to run this script: v14.15.3
+
 Typescript version used: 4.4.4
 
 # Usage:
