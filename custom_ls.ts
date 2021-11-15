@@ -38,15 +38,16 @@ const cliArgs: string[] = process.argv.slice(2);
 // extract folder path from the command line argument list
 let folderPath: string = "";
 if (cliArgs.length === 1) {
-    folderPath = cliArgs[0];
+    folderPath = path.normalize(cliArgs[0]);
 } else {
     console.log("Incorrect number of arguments supplied. Usage: node custom_ls.js <path of folder>");
     process.exit(0);
 }
 
 const docList: IDocListItem[] = []; // list of folders and files at a given path
-let totalSize: number = 0; // total size of all files at a given path, in bytes
-let count: number = 0; // count of all files at a given path
+let totalFileSize: number = 0; // total size of all files at a given path, in bytes
+let fileCount: number = 0; // count of all files at a given path
+let folderCount: number = 0; // count of all subfolders at a given path
 let docNames: string[];
 try {
     docNames = fs.readdirSync(folderPath); // get names of folders and files at a given path
@@ -79,8 +80,10 @@ for (const docName of docNames) {
 
     // update count and size for files
     if (!stats.isDirectory()) {
-        count++;
-        totalSize += stats.size;
+        fileCount++;
+        totalFileSize += stats.size;
+    } else {
+        folderCount++;
     }
 }
 
@@ -95,7 +98,8 @@ for (const docListItem of docList) {
 
 // display output to console
 console.log(docListTable.toString());
-console.log(`${count} File(s) ${totalSize} bytes`);
+console.log(`${fileCount} File(s) ${totalFileSize} bytes`);
+console.log(`${folderCount} Dir(s)`);
 
 // comparison function
 function compareFn(item1: IDocListItem, item2: IDocListItem): number {
